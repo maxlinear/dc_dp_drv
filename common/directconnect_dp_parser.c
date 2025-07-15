@@ -74,13 +74,14 @@ dc_dp_underszpktdb_find(uint8_t skb_len)
 		return (DCDP_UNDERSZ_PKT_DB_SIZE - 1);
 }
 
-static void dc_dp_underszpkt_trim(struct sk_buff *skb)
+static void dc_dp_underszpkt_pad_clr(struct sk_buff *skb)
 {
 	uint8_t pktdb_index;
-	unsigned int len = skb->len;
-	__skb_trim(skb, skb->len - DCDP_UNDERSZ_PKT_PAD_LEN);
+	uint32_t pad_offset = skb->len - DCDP_UNDERSZ_PKT_PAD_LEN;
 
-	pktdb_index = dc_dp_underszpktdb_find(len);
+	memset(skb->data + pad_offset, 0, DCDP_UNDERSZ_PKT_PAD_LEN);
+
+	pktdb_index = dc_dp_underszpktdb_find(skb->len);
 	atomic_inc(&g_underszpktdb[pktdb_index].counter);
 }
 
@@ -155,7 +156,7 @@ dc_dp_parser_remove_pad(struct sk_buff *skb)
 				skb->DW0, skb->DW1, skb->DW2, skb->DW3, skb->len);
 	print_hex_dump(KERN_DEBUG, "Original skb: ", DUMP_PREFIX_OFFSET, 32, 1, skb->data, skb->len, false);
 
-	dc_dp_underszpkt_trim(skb);
+	dc_dp_underszpkt_pad_clr(skb);
 	clear_bit(DCDP_UNDERSZ_PKT_DW0_BIT_POS, (unsigned long *)&skb->DW0);
 
 	pr_debug("Modified skb: DW0:0x%08x DW1:0x%08x DW2:0x%08x DW3:0x%08x (%d bytes)\n",
