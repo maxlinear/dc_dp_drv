@@ -37,6 +37,7 @@
 #include "directconnect_dp_litepath.h"
 #include "directconnect_dp_parser.h"
 #include "../mth/mth_macdb.h"
+#include "directconnect_dp_swpath.h"
 
 /* Defines */
 #define DC_DP_DRV_MODULE_NAME    "directconnect_datapath"
@@ -1584,6 +1585,7 @@ static __init int dc_dp_init_module(void)
         dc_dp_dcmode_init();
         mth_register_db_notifier(&mth_notifier);
         dc_dp_parser_init();
+        dc_dp_sw_port_init();
 
 #ifdef CONFIG_PROC_FS
         dc_dp_proc_init();
@@ -1607,6 +1609,7 @@ static __exit void dc_dp_exit_module(void)
         mth_unregister_db_notifier(&mth_notifier);
         dc_dp_dcmode_exit();
         dc_dp_device_exit();
+        dc_dp_sw_port_exit();
         g_dc_dp_init_ok = 0;
     }
 }

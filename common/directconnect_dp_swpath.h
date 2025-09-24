@@ -21,5 +21,7 @@ dp_alloc_sw_port(struct module *owner, struct net_device *dev, int32_t dev_port,
 extern int32_t
 dp_dealloc_sw_port(struct module *owner, struct net_device *dev, int32_t dev_port, int32_t port_id, uint32_t flags);
 
+void dc_dp_sw_port_init(void);
+void dc_dp_sw_port_exit(void);
 #endif
 
