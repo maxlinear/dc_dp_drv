@@ -1,6 +1,7 @@
 /*
  * DirectConnect provides a common interface for the network devices to achieve the full or partial 
    acceleration services from the underlying packet acceleration engine
+ * Copyright (c) 2020-2026, MaxLinear, Inc.
  * Copyright (c) 2017, Intel Corporation.
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -16,6 +17,7 @@
 #ifndef __DCMODE_SW_COMMON_H__
 #define __DCMODE_SW_COMMON_H__
 
+#include <linux/version.h>
 #include <linux/pci.h>
 #if 0
 //------------------------------------------------------------------------------
@@ -138,8 +140,10 @@ typedef struct __attribute__ ((aligned(64)))
 #define SW_DCMODE1_LOCAL_VIRT(ch) ((unsigned int *) ch->lcl_cntr.virt)
 #define SW_DCMODE1_REMOTE_VIRT(ch) ((unsigned int *) ch->rm_cntr.virt)
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(5,15,195)
 #define MAX(x, y) (x > y ? x : y)
 #define MIN(x, y) (x < y ? x : y)
+#endif
 
 /* ######################## */
 

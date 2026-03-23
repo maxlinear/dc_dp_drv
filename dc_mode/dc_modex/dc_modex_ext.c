@@ -1,7 +1,7 @@
 /*
  * DirectConnect provides a common interface for the network devices to achieve the full or partial
    acceleration services from the underlying packet acceleration engine
- * Copyright (c) 2020-2024, MaxLinear, Inc.
+ * Copyright (c) 2020-2026, MaxLinear, Inc.
  * Copyright (c) 2017, Intel Corporation.
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -56,8 +56,10 @@
 
 #define DCMODE_EXT_BRIDGE_FLOW_LEARNING    1
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(5,15,195)
 #undef MIN
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))
+#endif
 
 #define DCMODE_EXT_MAX_PORT          20
 #if IS_ENABLED(CONFIG_X86_INTEL_LGM) || IS_ENABLED(CONFIG_SOC_LGM)

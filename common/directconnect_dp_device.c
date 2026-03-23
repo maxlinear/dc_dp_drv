@@ -1,6 +1,7 @@
 /*
  * DirectConnect provides a common interface for the network devices to achieve the full or partial
    acceleration services from the underlying packet acceleration engine
+ * Copyright (c) 2020-2026, MaxLinear, Inc.
  * Copyright (c) 2017, Intel Corporation.
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -13,12 +14,15 @@
  * more details.
  */
 
+#include <linux/version.h>
 #include <linux/module.h>
 #include <directconnect_dp_dcmode_api.h>
 //#include "directconnect_dp_api.h"
 #include "directconnect_dp_device.h"
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(5,15,195)
 #define MAX(x, y) (x > y ? x : y)
+#endif
 
 /*!
     \brief DC DP device block synchronization
