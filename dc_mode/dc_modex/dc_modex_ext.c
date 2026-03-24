@@ -1578,7 +1578,14 @@ dcmode_ext_mark_pkt_devqos(uint32_t devqos, struct sk_buff *skb)
 #if IS_ENABLED(CONFIG_X86_INTEL_LGM) || IS_ENABLED(CONFIG_SOC_LGM)
     struct dma_tx_desc_0 *desc_0 = (struct dma_tx_desc_0 *)&skb->DW0;
 
+    DC_DP_DEBUG(DC_DP_DBG_FLAG_DBG,
+        "(%s) pre: skb->DW0=0x%x desc_0->all=0x%x devqos=%u skb->priority=%d\n",
+        __func__, skb->DW0, desc_0->all, devqos, skb->priority);
+    DCMODE_EXT_SET_BITS(desc_0->all, 24, 8, 0);
     DCMODE_EXT_SET_BITS(desc_0->all, 24, 4, devqos);
+    DC_DP_DEBUG(DC_DP_DBG_FLAG_DBG,
+        "(%s) post: skb->DW0=0x%x desc_0->all=0x%x devqos=%u skb->priority=%d\n",
+        __func__, skb->DW0, desc_0->all, devqos, skb->priority);
 #endif /* CONFIG_X86_INTEL_LGM || CONFIG_SOC_LGM */
     return 0;
 }
